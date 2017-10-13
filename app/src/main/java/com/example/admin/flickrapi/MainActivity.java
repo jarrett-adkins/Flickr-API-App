@@ -1,5 +1,6 @@
 package com.example.admin.flickrapi;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -7,7 +8,6 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.example.admin.flickrapi.data.RemoteDataSource;
 import com.example.admin.flickrapi.model.FlickrImage;
@@ -75,7 +75,8 @@ public class MainActivity extends AppCompatActivity {
                                     new FlickrListAdapter.OnItemClickListener() {
                                 @Override
                                 public void onItemClick(Item item) {
-                                    Log.d(TAG, "onItemClick: " + item.getTitle());
+                                    //Log.d(TAG, "onItemClick: " + item.getTitle());
+                                    goToActiviy( item );
                                 }
                             }) );
 
@@ -84,5 +85,22 @@ public class MainActivity extends AppCompatActivity {
                             recyclerView.addItemDecoration(dividerItemDecoration);
                         }
                 });
+    }
+
+    public void goToActiviy( Item item ) {
+        Intent intent = new Intent ( this, FullSizeImageActivity.class );
+
+        intent.putExtra( "imageURL", item.getMedia().getM() );
+        intent.putExtra( "title", item.getTitle() );
+        intent.putExtra( "link", item.getLink() );
+        intent.putExtra( "mediaLink", item.getMedia().getM() );
+        intent.putExtra( "date", item.getDateTaken() );
+        intent.putExtra( "description", item.getDescription() );
+        intent.putExtra( "published", item.getPublished() );
+        intent.putExtra( "author", item.getAuthor() );
+        intent.putExtra( "authorId", item.getAuthorId() );
+        intent.putExtra( "tags", item.getTags() );
+
+        startActivity( intent );
     }
 }
